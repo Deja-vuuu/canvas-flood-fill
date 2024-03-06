@@ -1,0 +1,44 @@
+#drawBalloon {
+}
+#wire {
+  background: url(../img/img_wire.png) no-repeat 0 0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  /* background: url(../img/bg.jpg) no-repeat 0 0; */
+}
+.drawWrap {
+  width: 80vw;
+  height: 200px;
+}
+
+#swatchGrid {
+  position: absolute;
+  bottom: 100px;
+  display: grid;
+  grid-template-columns: repeat(8, 32px);
+  grid-template-rows: repeat(2, 32px);
+  grid-gap: 6px;
+  margin-bottom: 1em;
+}
+
+.swatch {
+  border-radius: 4px;
+  cursor: pointer;
+}

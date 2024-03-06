@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width,user-scalable=no,initial-scale=1.0,  maximum-scale=1.0,minimum-scale=1.0">
+	<script>
+
+	</script>
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<title>涂色游戏</title>
+</head>
+
+<body>
+	<div class="container">
+		<div class="drawWrap">
+			<canvas id="canvas" width="300px" height="500px"></canvas>
+			<div id="wire"></div>
+		</div>
+
+
+		<div id="swatchGrid">
+			<div class="swatch" data-color="#da3855" style="background: #da3855"></div>
+			<div class="swatch" data-color="#eda541" style="background: #eda541"></div>
+			<div class="swatch" data-color="#f5ea5a" style="background: #f5ea5a"></div>
+			<div class="swatch" data-color="#75b85b" style="background: #75b85b"></div>
+			<div class="swatch" data-color="#66a5d7" style="background: #66a5d7"></div>
+			<div class="swatch" data-color="#817799" style="background: #817799"></div>
+			<div class="swatch" data-color="#e17ea5" style="background: #e17ea5"></div>
+			<div class="swatch" data-color="#f4cdaf" style="background: #f4cdaf"></div>
+		</div>
+
+
+	</div>
+
+	<script src="js/utils.js"></script>
+
+	<script>
+		function initGame() {
+			let chooseColor
+			const ratio = window.devicePixelRatio || 1
+			const canvas = document.getElementById('canvas')
+			const ctx = canvas.getContext('2d')
+			const img = new Image()
+			img.src = 'img/5c.png'
+			img.onload = function () {
+				// 计算图片的缩放比例，使其在横向上充满画布
+				const scale = canvas.width / img.width
+				// 根据缩放比例调整图片的高度
+				const height = img.height * scale
+				// 计算绘制图片的起始纵坐标，使其垂直居中
+				const y = (canvas.height - height) / 2
+				// 绘制图片
+				ctx.drawImage(img, 0, y, canvas.width, height)
+
+			}
+
+			const swatchGrid = document.getElementById('swatchGrid')
+			swatchGrid.addEventListener('click', (e) => {
+				const clickTarget = e.target
+				chooseColor = clickTarget.dataset.color
+			})
+			canvas.addEventListener('click', (e) => {
+				if (!chooseColor) {
+					alert("请选择要填充的颜色")
+					return false
+				}
+				e = e.originalEvent || e
+				const left = Math.floor(e.pageX - canvas.offsetLeft)
+				const top = Math.floor(e.pageY - canvas.offsetTop)
+				const imgData = ctx.getImageData(left, top, 1, 1)
+				const colorArr = imgData.data
+				console.log("colorArr", colorArr)
+
+				if (
+					colorArr[0] === 0 &&
+					colorArr[1] === 0 &&
+					colorArr[2] === 0 &&
+					colorArr[3] === 0
+				) {
+					alert("此处不能上色")
+					return false
+				}
+				//判断是否点在线条上
+				if (
+					colorArr[0] < 50 &&
+					colorArr[1] < 50 &&
+					colorArr[2] < 50 &&
+					colorArr[3] === 255
+				) {
+					alert("线条处不能上色")
+					console.log(231231)
+					return false
+				}
+				const fillColor = hexToRgb(chooseColor).split(",")
+				fillColor.push(255)
+				console.log("fillColor", fillColor)
+				// floodFillLinear(myCanvas, left, top, fillColor, 80);
+				ctx.fillStyle = chooseColor // colour to fill
+				floodFill(left, top, 100, ctx) // fill pixels from position 200,200 with the colour red
+			})
+
+		}
+		window.onload = function () {
+			initGame()
+		}
+
+
+	</script>
+
+</body>
+
+</html>
