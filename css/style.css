@@ -21,18 +21,31 @@
   top: 0;
   left: 0;
   overflow: hidden;
-  /* background: url(../img/bg.jpg) no-repeat 0 0; */
+  background-image: url(../img/bg.png);
+  background-size: 100% auto;
+  background-repeat: no-repeat;
 }
 .drawWrap {
   width: 80vw;
   height: 200px;
 }
 
-#swatchGrid {
+.btn-container {
   position: absolute;
-  bottom: 100px;
+  bottom: 140px;
+  background-image: url(../img/btn-bg.png);
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10vh;
+}
+#swatchGrid {
+  margin-top: 40px;
   display: grid;
-  grid-template-columns: repeat(8, 32px);
+  grid-template-columns: repeat(5, 32px);
   grid-template-rows: repeat(2, 32px);
   grid-gap: 6px;
   margin-bottom: 1em;
